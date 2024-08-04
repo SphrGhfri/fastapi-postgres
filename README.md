@@ -9,8 +9,6 @@ This repository contains a template application using SQLAlchemy and FastAPI, de
 - [Installation](#installation)
 - [Usage](#usage)
 - [Project Structure](#project-structure)
-- [Docker](#docker)
-- [License](#license)
 
 ## Features
 
