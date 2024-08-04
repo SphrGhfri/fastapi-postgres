@@ -1,0 +1,44 @@
+services:
+  server:
+    container_name: fastapi
+    build:
+      context: .
+    # For Reload
+    volumes:
+      - .:/app
+    ports:
+      - 8000:8000
+
+    depends_on:
+      db:
+        condition: service_healthy
+  # The `db-password` secret is used
+  # to set the database password. You can create `db/password.txt` and add
+  # a password of your choosing to it before running `docker compose up`.
+  db:
+    container_name: postgres_db
+    image: postgres
+    restart: always
+    # user: postgres
+    # secrets:
+    #   - db-password
+    volumes:
+      - db-data:/var/lib/postgresql/data
+    environment:
+      - POSTGRES_DB=example
+      # - POSTGRES_PASSWORD_FILE=/run/secrets/db-password
+      - POSTGRES_USER=test_user
+      - POSTGRES_PASSWORD=test_password
+    ports:
+      - 5432:5432
+    healthcheck:
+      test: [ "CMD", "pg_isready" ]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+volumes:
+  db-data:
+    # secrets:
+    #   db-password:
+    #     file: db/password.txt
+
